@@ -10,7 +10,8 @@ import {
   FileCode2,
   FolderArchive,
   ExternalLink,
-  Play
+  Play,
+  Database
 } from 'lucide-react';
 
 export const LocalSetupGuide: React.FC = () => {
@@ -36,7 +37,7 @@ export const LocalSetupGuide: React.FC = () => {
               Export & Run Locally on Your Windows Machine
             </h2>
             <p className="text-sm text-slate-300 leading-relaxed">
-              You can extract the complete codebase, including all 75 questions, diagrams, Express backend, Gemini TTS proxy, and Windows launcher scripts, directly onto your local computer.
+              You can extract the complete codebase, including all exam questions, diagrams, Express backend, Gemini TTS proxy, Velero backup setup guides, and Windows launcher scripts, directly onto your local computer.
             </p>
           </div>
 
@@ -69,6 +70,59 @@ export const LocalSetupGuide: React.FC = () => {
             <p className="text-xs text-slate-600 mt-0.5">
               You can also click the <strong>Settings / Menu</strong> icon (top right corner of the Google AI Studio interface) and choose <strong>"Export to ZIP"</strong> or <strong>"Export to GitHub"</strong>.
             </p>
+          </div>
+        </div>
+      </div>
+
+      {/* Velero Backup & Restore Verification Setup for Windows */}
+      <div className="bg-gradient-to-br from-emerald-900/90 to-slate-900 text-white p-6 rounded-2xl border border-emerald-500/30 shadow-lg space-y-4">
+        <div className="flex items-center gap-3">
+          <div className="p-2.5 rounded-xl bg-emerald-500/20 text-emerald-300 border border-emerald-500/40">
+            <Database className="w-6 h-6" />
+          </div>
+          <div>
+            <div className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 text-[11px] font-semibold mb-1">
+              Velero Backup & Disaster Recovery Setup
+            </div>
+            <h3 className="text-base sm:text-lg font-bold text-white">
+              Windows Setup & Practice: Velero Backup & Namespace Mappings
+            </h3>
+          </div>
+        </div>
+        
+        <p className="text-xs sm:text-sm text-slate-200 leading-relaxed">
+          As highlighted in exam questions (e.g., restoring <code className="text-emerald-300 font-mono">finance-db-nightly</code> into <code className="text-emerald-300 font-mono">finance-validation</code> via namespace mappings), Windows administrators often verify backups locally using kubectl and Velero CLI. Follow this quick setup in your local Windows environment:
+        </p>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2">
+          <div className="bg-slate-900/90 p-4 rounded-xl border border-slate-700/80 space-y-2">
+            <div className="text-xs font-bold text-emerald-400 flex items-center gap-1.5">
+              <span>1. Install Velero CLI on Windows (via Chocolatey / Winget)</span>
+            </div>
+            <div className="relative bg-slate-950 p-2.5 rounded text-xs font-mono text-slate-200">
+              <code>winget install vmware.velero</code>
+              <button
+                onClick={() => handleCopy('winget install vmware.velero', 'veleroinstall')}
+                className="absolute top-2 right-2 p-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-300"
+              >
+                {copiedId === 'veleroinstall' ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5" />}
+              </button>
+            </div>
+          </div>
+
+          <div className="bg-slate-900/90 p-4 rounded-xl border border-slate-700/80 space-y-2">
+            <div className="text-xs font-bold text-emerald-400 flex items-center gap-1.5">
+              <span>2. Practice Velero Restore with Namespace Mapping</span>
+            </div>
+            <div className="relative bg-slate-950 p-2.5 rounded text-xs font-mono text-slate-200 overflow-x-auto">
+              <code>velero restore create --from-backup finance-db-nightly --namespace-mappings finance-prod:finance-validation</code>
+              <button
+                onClick={() => handleCopy('velero restore create --from-backup finance-db-nightly --namespace-mappings finance-prod:finance-validation', 'velerorestore')}
+                className="absolute top-2 right-2 p-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-300"
+              >
+                {copiedId === 'velerorestore' ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5" />}
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -219,10 +273,11 @@ export const LocalSetupGuide: React.FC = () => {
             <strong>Port 3000 already in use:</strong> If another application is running on port 3000, you can stop it or edit <code className="font-semibold text-slate-900">server.ts</code> to change <code className="font-mono text-slate-900">const PORT = 3000</code> to <code className="font-mono text-slate-900">const PORT = 3005</code>.
           </li>
           <li>
-            <strong>Offline / Air-Gapped usage:</strong> All 75 questions and architecture diagrams are self-contained locally in TypeScript and will load with zero internet connection once dependencies are installed.
+            <strong>Offline / Air-Gapped usage:</strong> All exam questions and architecture diagrams are self-contained locally in TypeScript and will load with zero internet connection once dependencies are installed.
           </li>
         </ul>
       </div>
     </div>
   );
 };
+
